@@ -21,14 +21,6 @@
          --length: 600px;
          --bgcolor: antiquewhite;
          }
-         @font-face {
-         font-family: "Source Sans Pro";
-         /* https://www.fontsquirrel.com/fonts/source-sans-pro */
-         src: url("https://www.lcg.ufrj.br/cwdc/3-javascript/bigint/source-sans-pro/SourceSansPro-Regular.otf")
-         format("opentype");
-         font-weight: 400;
-         font-style: normal;
-         }
          .eqnFont {
          font-family: "Source Sans Pro";
          font-weight: bold;
@@ -45,9 +37,10 @@
          }
          .container_bi {
          width: var(--length);
-         border: 4px solid brown;
+         border: 4px solid rgb(199, 165, 165);
          margin: 0 auto;
          padding: 1em;
+         border-radius: 10px;
          text-align: justify;
          background-color: var(--bgcolor);
          cursor: move;
@@ -110,36 +103,31 @@
             <span style="float: right"> 100 </span>
             <br /><br />
          </form>
-         <!-- 
-            <script src="/cwdc/3-javascript/cookies.js"></script>
-            -->
          <script>
-            function sqrt(value) {
+            function intsqrt(value) {
             if (value < 0n) {throw ''}
             
             if (value < 2n) {return value;}
             
-            function newtonIteration(n, x0) {
-            const x1 = ((n / x0) + x0) >> 1n;
-            if (x0 === x1 || x0 === (x1 - 1n)) {
-            return x0;
-            }
-            return newtonIteration(n, x1);
+            function funcAux(n, x0) {
+                const x1 = ((n / x0) + x0) >> 1n;
+                if (x0 === x1 || x0 === (x1 - 1n)) {return x0;}
+                return funcAux(n, x1);
             }
             
-            return newtonIteration(value, 1n);
+            return funcAux(value, 1n);
             }
             
-            function calculateBigInt(inputNum, result = [], repeat = true) {
+            function isBigInt(numero, arrayResult = [], repeat = true) {
             
-            if (typeof inputNum !== 'bigint')
-            return result;
+            if (typeof numero !== 'bigint')
+            return arrayResult;
             
-            const num = inputNum > 0n ? inputNum : -1n * inputNum;
+            const num = numero > 0n ? numero : -1n * numero;
             
-            if (num < 2n) return result;
+            if (num < 2n) return arrayResult;
             
-            const theSqrt = sqrt(num);
+            const quadrado = intsqrt(num);
             
             let x = 2n;
             
@@ -150,39 +138,36 @@
             
             let add = 2n;
             
-            while ((num % x) && (x < theSqrt)) {
-            // search numbers: 5, 7, 11, 13, 17, 19, 23...
+            while ((num % x) && (x < quadrado)) {
             x += add;
-            // add each time: 2, 4, 2, 4, 2, 4, 2...
             add = 6n - add;
             }
             }
             }
             
-            x = (x <= theSqrt) ? x : num;
+            x = (x <= quadrado) ? x : num;
             
             if (!repeat) {
-            const index = result.indexOf(x);
+            const index = arrayResult.indexOf(x);
             
             if (index < 0)
-            result.push(x);
+            arrayResult.push(x);
             
             } else {
-            result.push(x);
+            arrayResult.push(x);
             }
-            
             
             if (x === num) {
-            return result;
+            return arrayResult;
             } else {
-            return calculateBigInt(num / x, result, repeat);
+            return isBigInt(num / x, arrayResult, repeat);
             }
             }
             
-            function factorize(num) {
-            const factors = calculateBigInt(num);
+            function factorizePY(num) {
+            const fac = isBigInt(num);
             const countObject = {};
-            for (const factor of factors) {
+            for (const factor of fac) {
             if (Number.isFinite(countObject[factor])) {
             countObject[factor] += 1;
             } else {
@@ -192,96 +177,9 @@
             return countObject;
             }
             
-            function stringify(obj) {
-            
-            let arr = [];
-            
-            for (let base in obj) {
-            exp = obj[base];
-            
-            if (exp === 1) {
-            arr.push(base + "");
-            } else {
-            arr.push(`${base}<sup>${exp}</sup>`);
-            }
-            }
-            
-            return arr.join(" x ");
-            }
-            
             function getFactors(num) {
-            return calculateBigInt(num, [], true);
+            return isBigInt(num, [], true);
             }
-         </script>
-         <script>
-            function toggleList(id) {
-            // alert(JSON.stringify($(id).css("display")));
-            if ($(id).css("display") != "none") {
-                $(id).fadeOut();
-            } else {
-                $(id).fadeIn();
-            }
-            }
-            
-            function dragAndSave(id) {
-            // mobile devices have trouble to drag.
-            if (screen.width <= 800) return;
-            
-            // get positions in localStorage
-            var positions = JSON.parse(localStorage.positions || "{}");
-            
-            // restore the positions of the saved elements
-            $.each(positions, function (id, pos) {
-                $(id).css(pos);
-            });
-            
-            // save the position of the draggable element into localStorage
-            $(id).draggable({
-                containment: "#containment-wrapper",
-                scroll: true,
-                stop: function (event, ui) {
-                    positions[id] = ui.position;
-                    localStorage.positions = JSON.stringify(positions);
-                },
-            });
-            
-            // reset localStorage
-            window.onkeydown = function (event) {
-                if (event.metaKey && event.key === "Escape") {
-                    localStorage.clear();
-                    alert("Local storage has been cleared");
-                } else if (event.key == "b") {
-                    window.location.href = "/cwdc";
-                } else if (event.key == "B") {
-                    let path = window.location.pathname;
-                    window.location.href = path.split("/", 3).join("/");
-                }
-            };
-            }
-            
-            function setCookie(cname, cvalue, exdays) {
-            const d = new Date();
-            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-            let expires = "expires=" + d.toUTCString();
-            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-            }
-            
-            function getCookie(cname) {
-            let name = cname + "=";
-            let decodedCookie = decodeURIComponent(document.cookie);
-            let ca = decodedCookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-            }
-            
          </script>
          <script type="module">
             window.getFactors = getFactors;
@@ -289,31 +187,29 @@
             function getFactors() {
                 let n = $("#n")[0];
             
-                setCookie("slidervalue", n.valueAsNumber, 1);
-            
                 let m = $("mark");
                 if (n) {
                     // using javascript BigInt code to avoid the 53-bit limit
-                    let factors = LCM(n.valueAsNumber);
-                    //let factors = 10;
+                    let fac = LCM(n.valueAsNumber);
+                    //let fac = 10;
                     let mcolor =
-                        factors > Number.MAX_SAFE_INTEGER ? "red" : "green";
-                    let bits = factors.toString(2).length;
+                        fac > Number.MAX_SAFE_INTEGER ? "red" : "green";
+                    let bits = fac.toString(2).length;
                     $("#range").html(`(${bits.toString()} bits)`);
                     for (let i of m) {
                         i.style.color = mcolor;
                     }
             
-                    let f = stringify(factorize(factors));
+                    let f = JSON.stringify((factorizePY(fac)));
             
-                    $("#prod").html(`${factors} = ${f}`);
+                    $("#prod").html(`${fac} = ${f}`);
             
                     $("#i1").html((n.valueAsNumber + 1).toString());
                     $("#i").html(n.valueAsNumber.toString());
                 }
             }
             
-            const savedValue = getCookie("slidervalue");
+            const savedValue = 50;
             
             console.log("saved value: ", savedValue);
             
@@ -321,7 +217,7 @@
             
             console.log("set cookie: ", document.getElementById("n").value);
             
-            dragAndSave(".container_bi");
+            
             
             getFactors();
             

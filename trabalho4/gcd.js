@@ -32,22 +32,19 @@
  * @see https://dmitripavlutin.com/swap-variables-javascript/
  * @see https://www.mathsisfun.com/greatest-common-factor.html
  */
-export function gcd(x, y) {
+ function gcd(x, y) {
   while (x) {
     [x, y] = [y % x, x];
   }
-
   return y;
 }
-
 /**
  * Greatest Common Divisor of an array of numbers.
  * @function
  * @param {Array<Number>} arr array of numbers.
  * @return {Number} GCD.
  */
-export var GCD = (arr) => arr.reduce(gcd);
-
+var GCD = (arr) => arr.reduce(gcd);
 /**
  * Least Common Multiple, which returns the smallest
  * number that can be divided by x and y without any remainder.
@@ -58,8 +55,7 @@ export var GCD = (arr) => arr.reduce(gcd);
  * @see https://en.wikipedia.org/wiki/Least_common_multiple
  * @see https://www.w3resource.com/python-exercises/challenges/1/python-challenges-1-exercise-37.php
  */
-export var lcm = (x, y) => (x * y) / gcd(x, y);
-
+var lcm = (x, y) => (x * y) / gcd(x, y);
 /**
  * The smallest integer number with all factors from 1 to n
  * is their Least Common Multiple.
@@ -71,7 +67,7 @@ export var lcm = (x, y) => (x * y) / gcd(x, y);
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
  * @see https://betterprogramming.pub/using-javascript-bigint-to-represent-large-numbers-d1ad9f6e0079
  */
-export function LCM(n) {
+function LCM(n) {
   const arr = Array.from(Array(n), (_, index) => BigInt(index + 1));
   return arr.reduce(lcm);
 }
