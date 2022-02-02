@@ -10,14 +10,25 @@
             rel="stylesheet"
             href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"
         />
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     </head>
 
-    <body style="margin: 0px;">
+    <body id="draggable" style="margin: 0px; display: flex;flex:1;  align-items: center; justify-content:center; height: 100%;">
+                
+                <div style="display: flex; margin-top: 20px; flex-direction: column;">
+                    <h3 style="text-align: center;">Canvas: <span id="tela"></span></h3>
+                    <h3 style="text-align: center; margin-top: 0px;">Aspect Ratio = <span id="aspect"></span></h3>
+                    <canvas id="myCanvas" style="border:4px solid #A52A2A; background-color: #FAEBD7;"></canvas>
 
-                <canvas id="myCanvas" width=640 height=480 style="border:4px solid #A52A2A; background-color: #FAEBD7;"></canvas>
-
-                <input type="range" min="1" max="100" class="slider" id="myRange" oninput="calculateCircles()">
+                    <input type="range" min="1" max="100" class="slider" id="myRange" oninput="circlesRectangle()">
+                </div>
 
         <script type="text/javascript" src="./scripts.js"></script>
+        <script>
+              $( function() {
+                    $( "#draggable" ).draggable();
+                } );
+        </script>
     </body>
 </html>
