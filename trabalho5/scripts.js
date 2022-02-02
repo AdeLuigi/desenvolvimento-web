@@ -1,6 +1,10 @@
 document.onreadystatechange = function(){
     if (document.readyState === "complete") {
         window.circlesRectangle = circlesRectangle;
+        const valor = getCookie("valor")
+        var slider222 =  document.getElementById("myRange");
+        slider222.value = valor;
+        console.log(valor+"valor")
 
         var query = window.location.search.substring(1);
         var qs = parse_query_string(query);
@@ -31,9 +35,13 @@ document.onreadystatechange = function(){
           }
 
         function circlesRectangle() {
-            var slider = document.getElementById("myRange");
+            var slider =  document.getElementById("myRange");
             // number of circles
-            let ncircles = slider.value;
+            let ncircles =  slider.value;
+
+            setCookie("valor", ncircles, 10)
+
+            console.log(ncircles)
 
             const canvas = document.getElementById("myCanvas");
             const tela = document.getElementById("tela");
@@ -115,11 +123,6 @@ document.onreadystatechange = function(){
         
         
     }
-    else {
-       window.onload = function () {
-          myFunction();
-       };
-    };
 }
 
 
