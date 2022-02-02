@@ -14,7 +14,7 @@
         <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     </head>
 
-    <body id="draggable" style="margin: 0px; display: flex;flex:1;  align-items: center; justify-content:center; height: 100%;">
+    <body id="draggable" class="container_bi ui-draggable ui-draggable-handle" style="margin: 0px; display: flex;flex:1;  align-items: center; justify-content:center; height: 100%;">
                 
                 <div style="display: flex; margin-top: 20px; flex-direction: column;">
                     <h3 style="text-align: center;">Canvas: <span id="tela"></span></h3>
@@ -25,10 +25,10 @@
                 </div>
 
         <script type="text/javascript" src="./scripts.js"></script>
+
+        <script src="./LCG.js"></script>
         <script>
-              $( function() {
-                    $( "#draggable" ).draggable();
-                } );
-        </script>
+            dragAndSave(".container_bi");
+      </script>
     </body>
 </html>
