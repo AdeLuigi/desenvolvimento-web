@@ -46,6 +46,9 @@ document.onreadystatechange = function(){
             const canvas = document.getElementById("myCanvas");
             const tela = document.getElementById("tela");
             const aspect = document.getElementById("aspect");
+            const numero = document.getElementById("numero");
+
+            numero.innerHTML = ncircles;
 
             
 

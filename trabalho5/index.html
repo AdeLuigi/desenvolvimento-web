@@ -14,13 +14,13 @@
         <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
     </head>
 
-    <body id="draggable" class="container_bi ui-draggable ui-draggable-handle" style="margin: 0px; display: flex;flex:1;  align-items: center; justify-content:center; height: 100%;">
+    <body id="draggable" class="container_bi ui-draggable ui-draggable-handle" style="margin: 0px; display: flex;flex:1;  align-items: center; justify-content:center; height: 100%; background-color: #d5db9a;">
                 
                 <div style="display: flex; margin-top: 20px; flex-direction: column;">
-                    <h3 style="text-align: center;">Canvas: <span id="tela"></span></h3>
-                    <h3 style="text-align: center; margin-top: 0px;">Aspect Ratio = <span id="aspect"></span></h3>
+                    <h3 style="text-align: center; color: #A52A2A;">Canvas: <span id="tela"></span></h3>
+                    <h3 style="text-align: center; margin-top: 0px; color: #A52A2A;">Aspect Ratio = <span id="aspect"></span></h3>
                     <canvas id="myCanvas" style="border:4px solid #A52A2A; background-color: #FAEBD7;"></canvas>
-
+                    <h3 style="text-align: center; margin-bottom: 0px; color: #A52A2A;"><span id="numero"></span> ≤ <span id="numero2">(7x10)</span> </h3>
                     <input type="range" min="1" max="100" class="slider" id="myRange" oninput="circlesRectangle();">
                 </div>
         <script src="./LCG.js"></script>
