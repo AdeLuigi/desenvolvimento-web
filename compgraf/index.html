@@ -62,7 +62,7 @@ function desenhaQuadrado(ctx, points) {
     ctx.fill();
  
     ctx.strokeStyle = "rgba(130,130,1300,255)"
-    ctx.lineWidth = 10
+    ctx.lineWidth = 12
     ctx.stroke()
  }
  (function(global, factory) {
@@ -8824,15 +8824,6 @@ function desenhaQuadrado(ctx, points) {
     return [((x + n / 2) * w) / n, ((-y + n / 2) * h) / n];
  }
  
- function* range(start, end) {
-    let step = (start > end) ? -1 : 1;
-    let current = start
-    while (true) {
-       yield current;
-       if (current === end) break;
-       current += step;
-    }
- }
  
  function rotacao(sq, c) {
     let [dx, dy] = [sq[c].x, sq[c].y]
