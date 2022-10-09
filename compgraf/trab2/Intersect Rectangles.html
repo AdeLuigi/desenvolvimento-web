@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)http://orion.lcg.ufrj.br/cwdc/10-html5css3/circRecNoSource.html?w=500&h=500 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Intersect Rectangles</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./Intersect Rectangles_files/LCG.css">
+        <style>
+            #rect_rect_container,
+            #tri_tri_container,
+            #circ_rect_container {
+                width: fit-content;
+            }
+            h2 {
+                cursor: move;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="rect_rect_container" class="ui-draggable" style="position: relative;">
+            <canvas id="theCanvas1" width="500" height="500">
+                Please upgrade your browser.
+            </canvas>
+            <h2 class="ui-draggable-handle">Rectangle ∩ Rectangle (Drag me)</h2>
+        </div>
+        <div id="circ_rect_container" class="ui-draggable" style="position: relative;">
+            <canvas id="theCanvas2" width="500" height="500">
+                Please upgrade your browser.
+            </canvas>
+            <h2 class="ui-draggable-handle">Circle ∩ Rectangle ∩ Triangle (Drag me)</h2>
+        </div>
+        <div id="tri_tri_container" class="ui-draggable" style="position: relative;">
+            <canvas id="theCanvas3" width="500" height="500">
+                Please upgrade your browser.
+            </canvas>
+            <h2 class="ui-draggable-handle">Triangle ∩ Triangle (Drag me)</h2>
+        </div>
+
+        <!-- gl-matrix.js is not esm compatible -->
+        <script src="./Intersect Rectangles_files/gl-matrix.js"></script>
+        <script type="text/javascript">
+            // deconstruct glMatrix object.
+            const { mat2, mat3, mat4, vec2, vec3, vec4 } = glMatrix;
+        </script>
+
+        <script type="module" src="./Intersect Rectangles_files/circRecNoSource.js"></script>
+
+        <script type="text/javascript" src="./Intersect Rectangles_files/LCG.js"></script>
+        <script src="./Intersect Rectangles_files/jquery.min.js"></script>
+        <script src="./Intersect Rectangles_files/jquery-ui.min.js"></script>
+
+        <script type="text/javascript">
+            dragAndSave("#rect_rect_container");
+            dragAndSave("#circ_rect_container");
+            dragAndSave("#tri_tri_container");
+            $("#circ_rect_container").draggable("option", "handle", "h2");
+            $("#rect_rect_container").draggable("option", "handle", "h2");
+            $("#tri_tri_container").draggable("option", "handle", "h2");
+        </script>
+
+        <script>
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const x = urlParams.get("w") || "500";
+            const y = urlParams.get("h") || "500";
+
+            let canvas = document.getElementById("theCanvas1");
+            canvas.width = x;
+            canvas.height = y;
+
+            canvas = document.getElementById("theCanvas2");
+            canvas.width = x;
+            canvas.height = y;
+        </script>
+    
+
+</body></html>
