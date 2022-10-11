@@ -15,25 +15,76 @@
 		<!-- gl-matrix.js is not esm compatible -->
 		<script src="utils\gl-matrix-min.js"></script>
 		<script src="utils\SAT.js"></script>
-		<script type="text/javascript">
-			// deconstruct glMatrix object.
-			const { mat2, mat3, mat4, vec2, vec3, vec4 } = glMatrix;
-		</script>
 
-		<script type="module" src="PolygonIntersection.js"></script>
+		<script type="module" src="circRecNoSource.js"></script>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-		<script>
-			const queryString = window.location.search;
-			const urlParams = new URLSearchParams(queryString);
-			const x = urlParams.get('w') || '500';
-			const y = urlParams.get('h') || '500';
+		<script type="text/javascript">
+			function toggleList(id) {
+				// alert(JSON.stringify($(id).css("display")));
+				if ($(id).css("display") != "none") {
+				  $(id).fadeOut();
+				} else {
+				  $(id).fadeIn();
+				}
+			  }
+			  
+			  function dragAndSave(id) {
+				// mobile devices have trouble to drag.
+				if (screen.width <= 800) return;
+			  
+				// get positions in localStorage
+				var positions = JSON.parse(localStorage.positions || "{}");
+			  
+				if (positions[id]) $(id).css(positions[id]);
+			  
+				// save the position of the draggable element into localStorage
+				$(id).draggable({
+				  scroll: true, // If set to true, container auto-scrolls while dragging.
+				  // Triggered when dragging stops.
+				  stop: function (event, ui) {
+					let positions = JSON.parse(localStorage.positions || "{}");
+					positions[id] = ui.position; // { top, left } object.
+					localStorage.positions = JSON.stringify(positions);
+				  },
+				});
+			  
+				// reset localStorage
+				window.onkeydown = function (event) {
+				  if (event.key === "Escape" || event.key === "e") {
+					if (event.metaKey || event.ctrlKey) {
+					  localStorage.clear();
+					  alert("Local storage has been cleared");
+					}
+				  } else if (event.key == "b") {
+					window.location.href = "/cwdc";
+				  } else if (event.key == "B") {
+					let path = window.location.pathname;
+					window.location.href = path.split("/", 3).join("/");
+				  }
+				};
+			  }
+			  
 
-			let canvas = document.getElementById('theCanvas');
+        </script>
+		
+	</body>
+	<script>
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const x = urlParams.get("w") || "500";
+		const y = urlParams.get("h") || "500";
+		if(document.getElementById("theCanvas1")){
+			let canvas = document.getElementById("theCanvas1");
 			canvas.width = x;
 			canvas.height = y;
-		</script>
-	</body>
+	
+			canvas = document.getElementById("theCanvas2");
+			canvas.width = x;
+			canvas.height = y;
+		}
+
+	</script>
 </html>
