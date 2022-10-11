@@ -8,18 +8,14 @@
 
 	<body>
 		<h2>Interseção entre círculos e polígonos</h2>
-		<canvas id="theCanvas" width="500" height="500">
+		<canvas id="theCanvas1" width="500" height="500">
 			Please upgrade your browser.
 		</canvas>
 
 		<!-- gl-matrix.js is not esm compatible -->
-		<script src="utils\gl-matrix-min.js"></script>
-		<script src="utils\SAT.js"></script>
+		<script src="gl-matrix-min.js"></script>
 
 		<script type="module" src="circRecNoSource.js"></script>
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
 		<script type="text/javascript">
 			function toggleList(id) {
@@ -68,6 +64,14 @@
 			  }
 			  
 
+        </script>
+		<script type="text/javascript">
+            dragAndSave("#rect_rect_container");
+            dragAndSave("#circ_rect_container");
+            dragAndSave("#tri_tri_container");
+            $("#circ_rect_container").draggable("option", "handle", "h2");
+            $("#rect_rect_container").draggable("option", "handle", "h2");
+            $("#tri_tri_container").draggable("option", "handle", "h2");
         </script>
 		
 	</body>
