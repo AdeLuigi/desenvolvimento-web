@@ -89,7 +89,6 @@
   * @param {Number} radius circle radius.
   * @returns {Boolean} intersect or not.
   */
- function convexPolyCircleIntersect(poly, center, radius) {}
  
  /**
   * Returns true iff a circle intersects another circle with the given center and radius.
@@ -101,7 +100,6 @@
   * @see https://milania.de/blog/Intersection_area_of_two_circles_with_implementation_in_C%2B%2B
   * @see <img src="../IntersectingCirclesArea_CircularSegmentsSmallAngle.png" width="320">
   */
- function circleCircleIntersect(center1, radius1, center2, radius2) {}
 
  const { mat2, mat3, mat4, vec2, vec3, vec4 } = glMatrix;
  
@@ -120,14 +118,12 @@
   * @returns {Array<Array<Number,Number>>} a retangulo (a polygon).
   * @see <img src="../cRv2l.png" width="320">
   */
- function makeretangulo(center, u, size) {}
  
  /**
   * Returns an array with the mid-points of the edges of polygon poly.
   * @param {Array<Array<Number,Number>>} poly polygon.
   * @returns {Array<Array<Number,Number>>} mid-points.
   */
- function midPoints(poly) {}
  
  /**
   * <p>Demo: Teste de interseção entre triângulos.</p>
@@ -141,96 +137,6 @@
   * @name trianguloIsoDemo
   * @function
   */
- function trianguloIsoDemo() {
-   const demo = document.querySelector("#theCanvas3");
-   const ctx = demo.getContext("2d");
-   let [w, h] = [demo.clientWidth, demo.clientHeight];
-   const iso = [
-	 { basePoint: [27, 350], oppositeVertex: [300, 200], color: "black" },
-	 { basePoint: [10, 50], oppositeVertex: [50, 20], color: "black" },
-	 { basePoint: [25, 150], oppositeVertex: [150, 100], color: "black" },
-   ];
- 
-   function makePts() {
-	 for (let t of iso) {
-	   t.poly = trianguloIso(t);
-	   t.anchors = [t.basePoint, t.oppositeVertex];
-	 }
-   }
- 
-   makePts();
-   let sel = null;
-   let prevMouse = null;
- 
-   const update = () => {
-	 fillCanvas(ctx, w, h);
- 
-	 // tri ∩ tri
-	 for (let t1 of iso) {
-	   t1.color = "black";
-	   for (let t2 of iso) {
-		 if (t1 == t2) continue;
-		 let intersect = convexPolysIntersect(t1.poly, t2.poly);
-		 if (intersect) {
-		   t1.color = "red";
-		   t2.color = "red";
-		 }
-	   }
-	 }
- 
-	 for (let t of iso) {
-	   ctx.fillStyle = ctx.strokeStyle = t.color;
-	   for (let p of t.anchors) {
-		 ctx.beginPath();
-		 ctx.arc(...p, 5, 0, Math.PI * 2);
-		 ctx.fill();
-	   }
-	   ctx.beginPath();
-	   for (let p of t.poly) {
-		 ctx.lineTo(...p);
-	   }
-	   ctx.closePath();
-	   ctx.stroke();
-	 }
-   };
-   update();
- 
-   demo.onmousemove = (e) => {
-	 if (sel) {
-	   let mouse = [e.offsetX, e.offsetY];
-	   let [tri, ianchor] = sel;
-	   let delta = vec2d.sub([], mouse, prevMouse);
-	   prevMouse = mouse;
-	   if (ianchor == 0) {
-		 let v = vec2d.sub([], tri.oppositeVertex, tri.basePoint);
-		 vec2d.add(tri.basePoint, tri.basePoint, delta);
-		 vec2d.add(tri.oppositeVertex, tri.basePoint, v);
-	   } else {
-		 vec2d.add(tri.oppositeVertex, tri.oppositeVertex, delta);
-	   }
-	   makePts();
-	   update();
-	 }
-   };
- 
-   demo.onmousedown = (e) => {
-	 sel = null;
-	 const mouse = [e.offsetX, e.offsetY];
-	 prevMouse = mouse;
-	 for (let tri of iso) {
-	   for (let [ianchor, p] of tri.anchors.entries()) {
-		 if (vec2d.distance(mouse, p) <= 5) {
-		   sel = [tri, ianchor];
-		 }
-	   }
-	 }
-   };
- 
-   demo.onmouseup = () => {
-	 sel = null;
-   };
-   update();
- }
  
  /**
   * Returns the 3 vertices of an trianguloIso triangle
@@ -243,15 +149,6 @@
   * @see https://en.wikipedia.org/wiki/trianguloIso_triangle
   * @see <img src="../trianguloIso-Triangle.png" width="256">
   */
-
- 
-
-
-
-
-
-
-
  const queryString = window.location.search;
  const urlParams = new URLSearchParams(queryString);
  const x = urlParams.get('w') || '500';
@@ -452,6 +349,21 @@ function isPoint(poly) {
 	return true;
 }
 
+function getInicialTri(){return [
+	[
+		[380, 50 + 100],
+		[380, 50],
+	],
+	[
+		[380, 200 + 100],
+		[380, 200],
+	],
+	[
+		[380, 400 + 50],
+		[380, 350],
+	],
+];}
+
 function circleRectIntersection(c, r) {
 	let circleCenter = c[0];
 	let radius = vec2d.dist(c[0], c[1]);
@@ -569,7 +481,20 @@ function rectTriangleIntersection(rect, triangle) {
 
 	return collided;
 }
-
+function getInicialRedondo(){return [
+	[
+		[230, 100],
+		[230, 100 - 50],
+	],
+	[
+		[230, 250],
+		[230 + 50, 250],
+	],
+	[
+		[230, 400],
+		[230, 400 + 50],
+	],
+];}
 function rectCircleIntersection(rect, circle) {
 	return circleRectIntersection(circle, rect);
 }
@@ -607,11 +532,8 @@ function triangleCircleIntersection(triangle, circle) {
 	return circleTriangleIntersection(circle, triangle);
 }
 
-(function isoscelesDemo() {
-	const demo = document.querySelector('#theCanvas1');
-	const ctx = demo.getContext('2d');
-	let [w, h] = [demo.clientWidth, demo.clientHeight];
-	const rect = [
+function getInicialRet() {
+	return [
 		[
 			[100, 100],
 			[100, 100 + 25],
@@ -634,36 +556,17 @@ function triangleCircleIntersection(triangle, circle) {
 			[100 - 50, 400],
 		],
 	];
+}
 
-	const circle = [
-		[
-			[230, 100],
-			[230, 100 - 50],
-		],
-		[
-			[230, 250],
-			[230 + 50, 250],
-		],
-		[
-			[230, 400],
-			[230, 400 + 50],
-		],
-	];
+(function isoscelesDemo() {
+	const demo = document.querySelector('#theCanvas1');
+	const ctx = demo.getContext('2d');
+	let [w, h] = [demo.clientWidth, demo.clientHeight];
+	const rect = getInicialRet()
 
-	const triangle = [
-		[
-			[380, 50 + 100],
-			[380, 50],
-		],
-		[
-			[380, 200 + 100],
-			[380, 200],
-		],
-		[
-			[380, 400 + 50],
-			[380, 350],
-		],
-	];
+	const circle = getInicialRedondo()
+
+	const triangle = getInicialTri()
 
 	const update = () => {
 		ctx.clearRect(0, 0, w, h);

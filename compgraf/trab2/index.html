@@ -7,10 +7,24 @@
 	</head>
 
 	<body>
+		<div id="rect_rect_container" class="ui-draggable" style="position: relative;">
 		<h2>Interseção entre círculos e polígonos</h2>
-		<canvas id="theCanvas1" width="500" height="500">
-			Please upgrade your browser.
-		</canvas>
+			<canvas id="theCanvas1" width="500" height="500">
+				Please upgrade your browser.
+			</canvas>
+		</div>
+
+		<style>
+            #rect_rect_container,
+            #tri_tri_container,
+            #circ_rect_container {
+                width: fit-content;
+            }
+            h2 {
+                cursor: move;
+                text-align: center;
+            }
+        </style>
 
 		<!-- gl-matrix.js is not esm compatible -->
 		<script src="gl-matrix-min.js"></script>
